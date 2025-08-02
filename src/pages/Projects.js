@@ -13,13 +13,8 @@ import {
   Clock,
   Filter,
   HardHat,
-  Layers,
-  Mountain,
-  Shield,
   Compass,
   Beaker,
-  Microscope,
-  Truck,
   Settings,
   Zap
 } from "lucide-react";
