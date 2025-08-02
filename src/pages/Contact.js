@@ -138,7 +138,7 @@ const Contact = () => {
   ];
 
   // Generate Calendly link
-  const calendlyLink = "https://calendly.com/suhas_palani"; // Replace with your actual Calendly link
+  const calendlyLink = "https://calendly.com/raghav1305"; // Replace with your actual Calendly link
 
   return (
     <div className="pt-24 pb-16 bg-gradient-to-br from-blue-50 via-white to-green-50 relative overflow-hidden">
