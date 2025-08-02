@@ -592,22 +592,7 @@ const Contact = () => {
                 construction meeting scheduler to coordinate engineering
                 consultations and project planning sessions.
               </p>
-              {/* <div className="space-y-4 mb-6">
-                <div className="flex items-center text-gray-700 bg-blue-50 px-4 py-3 rounded-lg">
-                  <div className="w-3 h-3 bg-blue-500 rounded-full mr-4"></div>
-                  <span className="font-bold">
-                    Monday - Friday: 9:00 AM - 5:00 PM EST
-                  </span>
-                  <HardHat className="h-4 w-4 ml-2 text-blue-600" />
-                </div>
-                <div className="flex items-center text-gray-700 bg-green-50 px-4 py-3 rounded-lg">
-                  <div className="w-3 h-3 bg-green-500 rounded-full mr-4"></div>
-                  <span className="font-bold">
-                    Weekends: Special project appointments available
-                  </span>
-                  <Building2 className="h-4 w-4 ml-2 text-green-600" />
-                </div>
-              </div> */}
+              
               <div className="text-center">
                 <a
                   href={calendlyLink}
