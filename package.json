@@ -2,25 +2,15 @@
   "name": "civil-engineering-portfolio",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": "22.x"
+  },
   "dependencies": {
     "@emailjs/browser": "^4.4.1",
-    "@testing-library/dom": "^10.4.0",
-    "@testing-library/jest-dom": "^6.6.3",
-    "@testing-library/react": "^16.3.0",
-    "@testing-library/user-event": "^13.5.0",
-    "dotenv": "^17.2.1",
-    "framer-motion": "^12.23.9",
-    "lucide-react": "^0.525.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
-    "typescript": "^5.9.2",  
-    "react-helmet": "^6.1.0",
-    "react-hook-form": "^7.61.1",
-    "react-i18next": "^15.6.1",  
-    "i18next": "^23.2.3",  
-    "react-router-dom": "^7.7.1",
     "react-scripts": "5.0.1",
-    "react-toastify": "^11.0.5",
+    "typescript": "^5.9.2",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
