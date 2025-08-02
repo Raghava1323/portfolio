@@ -122,8 +122,8 @@ const Contact = () => {
     {
       icon: Linkedin,
       title: "LinkedIn",
-      value: "raghav-r-320949133",
-      link: "https://linkedin.com/in/raghav-r-320949133",
+      value: "raghavendra-ranganatha/",
+      link: "https://www.linkedin.com/in/raghavendra-ranganatha/",
       description: "Connect with me professionally",
       color: "blue",
     },
@@ -943,7 +943,7 @@ const Contact = () => {
                 Launch Email Construction
               </a>
               <a
-                href="https://linkedin.com/in/raghav-r-320949133"
+                href="https://www.linkedin.com/in/raghavendra-ranganatha/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="px-10 py-5 border-2 border-white text-white rounded-xl hover:bg-white hover:text-blue-600 transition-all duration-500 font-bold text-xl flex items-center justify-center transform hover:-translate-y-2 hover:scale-105"
