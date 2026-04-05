@@ -327,6 +327,43 @@ const Home = () => {
         </div>
       </section>
 
+      <WaveDivider color="#ffffff" />
+
+      {/* ========== DOWNLOAD RESUME ========== */}
+      <section className="py-20 bg-white">
+        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+          <ScrollReveal>
+            <div className="card-glass p-12 text-center relative overflow-hidden">
+              {/* Decorative background */}
+              <div className="absolute -top-10 -right-10 w-40 h-40 bg-civil-500/5 rounded-full blur-2xl"></div>
+              <div className="absolute -bottom-10 -left-10 w-40 h-40 bg-civil-500/5 rounded-full blur-2xl"></div>
+
+              <div className="relative">
+                <div className="icon-gradient w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-6">
+                  <DocumentIcon className="h-8 w-8 text-white" />
+                </div>
+                <h2 className="text-3xl md:text-4xl font-black text-civil-700 mb-4">Download My Resume</h2>
+                <p className="text-lg text-slate-500 mb-8 max-w-lg mx-auto">
+                  Get a detailed overview of my qualifications, experience, publications, and technical skills.
+                </p>
+                <a
+                  href="/Raghavendra_Ranganatha_Resume - 2026 _1.pdf"
+                  download
+                  className="btn-primary inline-flex items-center gap-3"
+                >
+                  <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4" />
+                    <polyline points="7,10 12,15 17,10" />
+                    <line x1="12" y1="15" x2="12" y2="3" />
+                  </svg>
+                  Download Resume (PDF)
+                </a>
+              </div>
+            </div>
+          </ScrollReveal>
+        </div>
+      </section>
+
       {/* ========== BOTTOM CTA ========== */}
       <section className="dark-section py-24">
         <div className="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8 relative">

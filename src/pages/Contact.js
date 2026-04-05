@@ -450,7 +450,7 @@ const Contact = () => {
                   </li>
                   <li className="flex items-start">
                     <CheckIcon className="h-4 w-4 text-civil-500 mr-3 mt-0.5 flex-shrink-0" />
-                    <span className="text-slate-600 text-base">American Concrete Institute (ACI)</span>
+                    <span className="text-slate-600 text-base">American Concrete Institute - ACI (Student Member)</span>
                   </li>
                   <li className="flex items-start">
                     <CheckIcon className="h-4 w-4 text-civil-500 mr-3 mt-0.5 flex-shrink-0" />

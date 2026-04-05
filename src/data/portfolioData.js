@@ -174,6 +174,11 @@ export const portfolioData = {
       location: "USA"
     },
     {
+      organization: "American Concrete Institute",
+      type: "Student Member",
+      location: "USA"
+    },
+    {
       organization: "International Association of Engineers",
       type: "Member",
       location: "International"
