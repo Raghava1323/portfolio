@@ -2,7 +2,7 @@
 export const portfolioData = {
   personal: {
     name: "Raghavendra Ranganatha",
-    title: "Civil Engineer & Sustainable Construction Researcher",
+    title: "Civil Structural Engineer & Sustainable Concrete Researcher",
     email: "raghav1305@gmail.com",
     phone: "+1 (313) 767-6515",
     linkedin: "raghav-r-320949133",
@@ -14,7 +14,7 @@ export const portfolioData = {
       institution: "Wayne State University, Detroit, MI",
       degree: "Master of Science - Civil Engineering",
       period: "May 2025 - Current",
-      coursework: ["River Assessment and Restoration - I"],
+      coursework: ["Advance River Assessment Restoration", "Advance Composite Materials in Concrete", "Bridge Design and Evaluation", "Advance Construction Engineering and Management", "Advance Design of Prestressed Concrete Structures"],
       status: "Current"
     },
     {
@@ -171,6 +171,11 @@ export const portfolioData = {
     {
       organization: "American Society of Civil Engineers",
       type: "Member",
+      location: "USA"
+    },
+    {
+      organization: "American Concrete Institute",
+      type: "Student Member",
       location: "USA"
     },
     {

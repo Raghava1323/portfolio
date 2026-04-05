@@ -1,331 +1,394 @@
 // src/pages/Home.js
 
 import { Link } from 'react-router-dom';
-import { 
-  ChevronRight, 
-  Building2, 
-  Users, 
-  FileText, 
-  Award,
-  HardHat,
-  Truck,
-  Wrench,
-  Layers,
-  Mountain,
-  Zap,
-  Shield,
-  Compass
-} from 'lucide-react';
+import {
+  BuildingIcon, StructureIcon, TeamIcon, DocumentIcon,
+  AwardIcon, ArrowRightIcon, BridgeIcon,
+  CementMixerIcon, CraneTowerIcon, HelmetIcon,
+  ConcreteBlockIcon,
+  ResearchIcon, HardHatIcon,
+} from '../components/CivilIcons';
 import { portfolioData } from '../data/portfolioData';
+import { ScrollReveal, AnimatedCounter } from '../hooks/useScrollAnimation';
+import { WaveDivider, CurveDivider } from '../components/SectionDividers';
+
+// === 3D ISOMETRIC CONSTRUCTION SITE ===
+const ConstructionSite = ({ className = '' }) => (
+  <svg className={className} viewBox="0 0 440 400" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <ellipse cx="220" cy="370" rx="200" ry="25" fill="url(#gs)" />
+
+    {/* Main building */}
+    <path d="M140 300 L140 110 L220 70 L220 260Z" fill="#1e40af" opacity="0.85" />
+    <path d="M220 260 L220 70 L300 110 L300 300Z" fill="#2563eb" opacity="0.9" />
+    <path d="M140 110 L220 70 L300 110 L220 150Z" fill="#60a5fa" opacity="0.8" />
+    {[130,175,220].map((y,i) => <g key={`w${i}`}><rect x="155" y={y} width="16" height="20" rx="2" fill="#bfdbfe" opacity="0.65" transform="skewY(-26.5)"/><rect x="178" y={y-10} width="16" height="20" rx="2" fill="#bfdbfe" opacity="0.65" transform="skewY(-26.5)"/><rect x="235" y={y} width="16" height="20" rx="2" fill="#93c5fd" opacity="0.55" transform="skewY(26.5)"/><rect x="260" y={y+12} width="16" height="20" rx="2" fill="#93c5fd" opacity="0.55" transform="skewY(26.5)"/></g>)}
+
+    {/* Crane */}
+    <line x1="220" y1="70" x2="220" y2="18" stroke="#1e40af" strokeWidth="3.5"/>
+    <line x1="140" y1="18" x2="320" y2="18" stroke="#1e40af" strokeWidth="3"/>
+    <rect x="140" y="18" width="16" height="10" rx="2" fill="#1e40af" opacity="0.8"/>
+    <line x1="310" y1="18" x2="310" y2="55" stroke="#1e40af" strokeWidth="1.5"/>
+    <path d="M305 55 Q310 65 315 55" stroke="#1e40af" strokeWidth="2" fill="none"/>
+    <rect x="303" y="67" width="14" height="10" rx="1" fill="#2563eb" opacity="0.6"/>
+
+    {/* Small building */}
+    <path d="M40 300 L40 200 L90 175 L90 275Z" fill="#1e40af" opacity="0.65"/>
+    <path d="M90 275 L90 175 L125 192 L125 292Z" fill="#2563eb" opacity="0.7"/>
+    <path d="M40 200 L90 175 L125 192 L75 217Z" fill="#60a5fa" opacity="0.6"/>
+
+    {/* Tower */}
+    <path d="M330 300 L330 140 L365 125 L365 285Z" fill="#1e40af" opacity="0.7"/>
+    <path d="M365 285 L365 125 L395 140 L395 300Z" fill="#2563eb" opacity="0.75"/>
+    <path d="M330 140 L365 125 L395 140 L360 155Z" fill="#60a5fa" opacity="0.65"/>
+    {[155,185,215,245].map((y,i) => <rect key={`t${i}`} x="340" y={y} width="9" height="12" rx="1" fill="#bfdbfe" opacity="0.45" transform="skewY(-26.5)"/>)}
+
+    {/* Cement Mixer */}
+    <g transform="translate(30,10)">
+      <ellipse cx="80" cy="310" rx="22" ry="15" fill="#2563eb" opacity="0.75"/>
+      <ellipse cx="80" cy="310" rx="17" ry="11" fill="#60a5fa" opacity="0.5"/>
+      <path d="M98 305 L115 296 L118 300 L101 309Z" fill="#1e40af" opacity="0.7"/>
+      <circle cx="118" cy="304" r="2" fill="#93c5fd" opacity="0.4"/>
+      <line x1="60" y1="325" x2="100" y2="325" stroke="#1e40af" strokeWidth="2"/>
+      <line x1="68" y1="325" x2="68" y2="340" stroke="#1e40af" strokeWidth="2"/>
+      <line x1="92" y1="325" x2="92" y2="340" stroke="#1e40af" strokeWidth="2"/>
+      <circle cx="68" cy="342" r="5" fill="#1e40af" opacity="0.65"/>
+      <circle cx="92" cy="342" r="5" fill="#1e40af" opacity="0.65"/>
+    </g>
+
+    {/* Concrete Truck */}
+    <g transform="translate(10,15)">
+      <rect x="310" y="315" width="50" height="22" rx="3" fill="#1e40af" opacity="0.6"/>
+      <rect x="360" y="310" width="24" height="27" rx="4" fill="#2563eb" opacity="0.7"/>
+      <rect x="365" y="314" width="12" height="9" rx="2" fill="#bfdbfe" opacity="0.5"/>
+      <ellipse cx="335" cy="310" rx="26" ry="16" fill="#2563eb" opacity="0.75"/>
+      <ellipse cx="335" cy="310" rx="20" ry="12" fill="#60a5fa" opacity="0.4"/>
+      <path d="M310 308 L296 300 L298 296 L312 304Z" fill="#1e40af" opacity="0.55"/>
+      <circle cx="325" cy="340" r="6" fill="#1e40af" opacity="0.7"/>
+      <circle cx="350" cy="340" r="6" fill="#1e40af" opacity="0.7"/>
+      <circle cx="372" cy="340" r="6" fill="#1e40af" opacity="0.7"/>
+    </g>
+
+    {/* Wheelbarrow + Cement bags */}
+    <path d="M200 330 L220 318 L232 324 L216 336Z" fill="#2563eb" opacity="0.55"/>
+    <circle cx="234" cy="340" r="5" fill="#1e40af" opacity="0.5"/>
+    <line x1="200" y1="330" x2="188" y2="340" stroke="#1e40af" strokeWidth="1.5"/>
+    <line x1="216" y1="336" x2="188" y2="340" stroke="#1e40af" strokeWidth="1.5"/>
+    <rect x="255" y="322" width="16" height="12" rx="2" fill="#1e40af" opacity="0.45"/>
+    <rect x="260" y="314" width="16" height="12" rx="2" fill="#2563eb" opacity="0.45"/>
+    <rect x="252" y="318" width="16" height="12" rx="2" fill="#60a5fa" opacity="0.35"/>
+
+    <line x1="20" y1="300" x2="420" y2="300" stroke="#2563eb" strokeWidth="1" opacity="0.15"/>
+    <defs><radialGradient id="gs"><stop offset="0%" stopColor="#1e40af" stopOpacity="0.1"/><stop offset="100%" stopColor="#1e40af" stopOpacity="0"/></radialGradient></defs>
+  </svg>
+);
 
 const Home = () => {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-green-50 relative overflow-hidden">
-      {/* Animated Construction Blueprint Background */}
-      <div className="absolute inset-0 opacity-5">
-        <div className="absolute inset-0 animate-pulse" style={{
-          backgroundImage: `url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cdefs%3E%3Cpattern id='blueprint' x='0' y='0' width='20' height='20' patternUnits='userSpaceOnUse'%3E%3Cg fill='none' stroke='%234F46E5' stroke-width='0.5'%3E%3Cpath d='M0 0h20v20H0z'/%3E%3Cpath d='M0 10h20M10 0v20'/%3E%3C/g%3E%3C/pattern%3E%3C/defs%3E%3Crect width='100' height='100' fill='url(%23blueprint)'/%3E%3C/svg%3E")`,
-        }}></div>
-      </div>
-      
-      {/* Floating Construction Elements */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-20 left-10 animate-bounce" style={{animationDelay: '0s', animationDuration: '3s'}}>
-          <Building2 className="h-8 w-8 text-blue-200 opacity-20" />
-        </div>
-        <div className="absolute top-40 right-20 animate-bounce" style={{animationDelay: '1s', animationDuration: '4s'}}>
-          <HardHat className="h-6 w-6 text-green-200 opacity-20" />
-        </div>
-        <div className="absolute bottom-40 left-20 animate-bounce" style={{animationDelay: '2s', animationDuration: '3.5s'}}>
-          <Wrench className="h-7 w-7 text-blue-300 opacity-20" />
-        </div>
-        <div className="absolute bottom-20 right-10 animate-bounce" style={{animationDelay: '0.5s', animationDuration: '4.5s'}}>
-          <Layers className="h-8 w-8 text-green-200 opacity-20" />
-        </div>
-      </div>
+    <div className="min-h-screen bg-white">
 
-      {/* Hero Section */}
-      <div className="relative pt-32 pb-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center">
-            {/* Construction-themed Profile Image with Animation */}
-            <div className="mb-8 relative group">
-              <div className="h-36 w-36 bg-gradient-to-br from-blue-600 to-green-600 rounded-full mx-auto flex items-center justify-center text-white text-4xl font-bold shadow-2xl border-4 border-white transform transition-all duration-500 group-hover:scale-110 group-hover:rotate-6">
-                {portfolioData.personal.name.split(' ').map(n => n[0]).join('')}
-              </div>
-              {/* Animated construction icons orbiting the profile */}
-              <div className="absolute inset-0 animate-spin" style={{animationDuration: '20s'}}>
-                <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 bg-blue-500 rounded-full p-2 shadow-lg">
-                  <HardHat className="h-5 w-5 text-white" />
-                </div>
-              </div>
-              <div className="absolute inset-0 animate-spin" style={{animationDuration: '25s', animationDirection: 'reverse'}}>
-                <div className="absolute top-1/2 -right-4 transform -translate-y-1/2 bg-green-500 rounded-full p-2 shadow-lg">
-                  <Building2 className="h-5 w-5 text-white" />
-                </div>
-              </div>
-              <div className="absolute inset-0 animate-spin" style={{animationDuration: '30s'}}>
-                <div className="absolute -bottom-4 left-1/2 transform -translate-x-1/2 bg-blue-600 rounded-full p-2 shadow-lg">
-                  <Wrench className="h-5 w-5 text-white" />
-                </div>
-              </div>
-            </div>
-            
-            {/* Name and Title with Animated Construction Accent */}
-            <div className="flex items-center justify-center mb-4 group">
-              <div className="transform transition-all duration-500 group-hover:rotate-12">
-                <Compass className="h-8 w-8 text-blue-600 mr-3" />
-              </div>
-              <h1 className="text-5xl md:text-6xl font-bold text-gray-900 animate-fade-in">
-                {portfolioData.personal.name}
-              </h1>
-              <div className="transform transition-all duration-500 group-hover:-rotate-12">
-                <Wrench className="h-8 w-8 text-green-600 ml-3" />
-              </div>
-            </div>
-            
-            <p className="text-xl md:text-2xl text-gray-700 mb-2 font-semibold">
-              {portfolioData.personal.title}
-            </p>
-            
-            <p className="text-lg text-blue-600 mb-8 font-medium animate-pulse">
-              🏗️ Building Tomorrow's Infrastructure Today 🏗️
-            </p>
-            
-            {/* Summary */}
-            <p className="text-lg text-gray-700 mb-12 max-w-4xl mx-auto leading-relaxed bg-white/70 backdrop-blur-sm rounded-lg p-6 shadow-lg">
-              {portfolioData.personal.summary}
-            </p>
-            
-            {/* Animated Call to Action Buttons */}
-            <div className="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-6">
-              <Link 
-                to="/projects"
-                className="group px-8 py-4 bg-gradient-to-r from-blue-600 to-green-600 text-white rounded-lg hover:from-blue-700 hover:to-green-700 transition-all duration-300 flex items-center justify-center shadow-xl hover:shadow-2xl transform hover:-translate-y-2 hover:scale-105"
-              >
-                <Building2 className="mr-2 h-5 w-5 group-hover:animate-bounce" />
-                View Construction Projects
-                <ChevronRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
-              </Link>
-              <Link 
-                to="/contact"
-                className="group px-8 py-4 border-2 border-blue-600 text-blue-600 rounded-lg hover:bg-blue-600 hover:text-white transition-all duration-300 shadow-xl hover:shadow-2xl transform hover:-translate-y-2 hover:scale-105 flex items-center justify-center"
-              >
-                <HardHat className="mr-2 h-5 w-5 group-hover:animate-bounce" />
-                Hire Engineer
-              </Link>
-            </div>
+      {/* ========== HERO ========== */}
+      <section className="pt-36 pb-28 bg-blueprint relative overflow-hidden">
+        <div className="glow-orb w-[600px] h-[600px] -top-64 -right-64"></div>
+        <div className="glow-orb w-[400px] h-[400px] -bottom-32 -left-32"></div>
+
+        {/* Floating construction icons - parallax */}
+        <div className="absolute inset-0 pointer-events-none overflow-hidden">
+          <div className="absolute top-32 left-[8%] float-parallax-1 opacity-[0.06]">
+            <CraneTowerIcon className="h-20 w-20 text-civil-500" />
+          </div>
+          <div className="absolute top-48 right-[12%] float-parallax-2 opacity-[0.05]">
+            <CementMixerIcon className="h-16 w-16 text-civil-500" />
+          </div>
+          <div className="absolute bottom-32 left-[15%] float-parallax-2 opacity-[0.06]">
+            <HelmetIcon className="h-14 w-14 text-civil-500" />
+          </div>
+          <div className="absolute bottom-48 right-[20%] float-parallax-1 opacity-[0.05]">
+            <ConcreteBlockIcon className="h-12 w-12 text-civil-500" />
           </div>
         </div>
-      </div>
 
-      {/* Construction Stats Section with Animated Elements */}
-      <div className="bg-white py-16 shadow-xl border-t-4 border-blue-500 relative overflow-hidden">
-        {/* Animated construction crane in background */}
-        <div className="absolute top-4 right-10 opacity-5">
-          <div className="animate-pulse">
-            <Building2 className="h-32 w-32 text-blue-600" />
-          </div>
-        </div>
-        
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">Construction & Engineering Metrics</h2>
-            <div className="w-24 h-1 bg-gradient-to-r from-blue-500 to-green-500 mx-auto animate-pulse"></div>
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-            <div className="text-center group transform transition-all duration-500 hover:scale-110">
-              <div className="flex justify-center mb-4">
-                <div className="p-4 bg-blue-100 rounded-full group-hover:bg-blue-200 transition-all duration-300 shadow-lg group-hover:shadow-xl group-hover:animate-pulse">
-                  <Building2 className="h-10 w-10 text-blue-600 group-hover:animate-bounce" />
+          <div className="flex flex-col lg:flex-row items-center gap-16">
+
+            {/* Left - Text */}
+            <div className="flex-1 text-center lg:text-left">
+              <ScrollReveal>
+                <div className="mb-10 flex justify-center lg:justify-start">
+                  <div className="relative group">
+                    <div className="photo-3d w-44 h-44 md:w-52 md:h-52 rounded-2xl">
+                      <img src="/raghav.jpeg" alt={portfolioData.personal.name} className="w-full h-full object-cover rounded-2xl" />
+                    </div>
+                    <div className="absolute -top-2 -left-2 w-8 h-8 border-t-3 border-l-3 border-civil-500 rounded-tl-lg opacity-60"></div>
+                    <div className="absolute -bottom-2 -right-2 w-8 h-8 border-b-3 border-r-3 border-civil-500 rounded-br-lg opacity-60"></div>
+                    <div className="absolute -inset-3 bg-civil-500/15 rounded-3xl -z-10 group-hover:bg-civil-500/20 transition-all duration-500"></div>
+                  </div>
                 </div>
-              </div>
-              <div className="text-4xl font-bold text-blue-600 mb-2 group-hover:scale-110 transition-transform">8+</div>
-              <div className="text-gray-600 font-medium">Years in Construction</div>
-              <div className="text-sm text-gray-500 mt-1">Civil Engineering</div>
-            </div>
-            
-            <div className="text-center group transform transition-all duration-500 hover:scale-110" style={{animationDelay: '0.2s'}}>
-              <div className="flex justify-center mb-4">
-                <div className="p-4 bg-green-100 rounded-full group-hover:bg-green-200 transition-all duration-300 shadow-lg group-hover:shadow-xl group-hover:animate-pulse">
-                  <Users className="h-10 w-10 text-green-600 group-hover:animate-bounce" />
+              </ScrollReveal>
+
+              <ScrollReveal delay={100}>
+                <h1 className="text-5xl md:text-6xl lg:text-7xl font-black text-civil-700 mb-5 tracking-tight leading-[1.05]">
+                  {portfolioData.personal.name}
+                </h1>
+              </ScrollReveal>
+
+              <ScrollReveal delay={200}>
+                <p className="text-2xl md:text-3xl font-bold mb-8">
+                  <span className="text-gradient">{portfolioData.personal.title}</span>
+                </p>
+              </ScrollReveal>
+
+              <ScrollReveal delay={300}>
+                <p className="text-lg text-slate-600 leading-relaxed mb-10 max-w-xl mx-auto lg:mx-0">
+                  {portfolioData.personal.summary}
+                </p>
+              </ScrollReveal>
+
+              <ScrollReveal delay={400}>
+                <div className="flex flex-col sm:flex-row justify-center lg:justify-start gap-5">
+                  <Link to="/projects" className="btn-primary">
+                    View Projects <ArrowRightIcon className="ml-2 h-5 w-5" />
+                  </Link>
+                  <Link to="/contact" className="btn-secondary">Get in Touch</Link>
                 </div>
-              </div>
-              <div className="text-4xl font-bold text-green-600 mb-2 group-hover:scale-110 transition-transform">100+</div>
-              <div className="text-gray-600 font-medium">Engineers Mentored</div>
-              <div className="text-sm text-gray-500 mt-1">Future Builders</div>
+              </ScrollReveal>
             </div>
-            
-            <div className="text-center group transform transition-all duration-500 hover:scale-110" style={{animationDelay: '0.4s'}}>
-              <div className="flex justify-center mb-4">
-                <div className="p-4 bg-blue-100 rounded-full group-hover:bg-blue-200 transition-all duration-300 shadow-lg group-hover:shadow-xl group-hover:animate-pulse">
-                  <FileText className="h-10 w-10 text-blue-600 group-hover:animate-bounce" />
-                </div>
+
+            {/* Right - 3D Construction Site */}
+            <ScrollReveal direction="right" className="flex-1 flex justify-center lg:justify-end">
+              <div className="relative">
+                <ConstructionSite className="w-[360px] md:w-[460px] h-auto animate-float-slow drop-shadow-2xl" />
               </div>
-              <div className="text-4xl font-bold text-blue-600 mb-2 group-hover:scale-110 transition-transform">{portfolioData.publications.length}</div>
-              <div className="text-gray-600 font-medium">Research Papers</div>
-              <div className="text-sm text-gray-500 mt-1">Sustainable Construction</div>
-            </div>
-            
-            <div className="text-center group transform transition-all duration-500 hover:scale-110" style={{animationDelay: '0.6s'}}>
-              <div className="flex justify-center mb-4">
-                <div className="p-4 bg-green-100 rounded-full group-hover:bg-green-200 transition-all duration-300 shadow-lg group-hover:shadow-xl group-hover:animate-pulse">
-                  <Award className="h-10 w-10 text-green-600 group-hover:animate-bounce" />
-                </div>
-              </div>
-              <div className="text-4xl font-bold text-green-600 mb-2 group-hover:scale-110 transition-transform">25+</div>
-              <div className="text-gray-600 font-medium">Committee Roles</div>
-              <div className="text-sm text-gray-500 mt-1">Industry Leadership</div>
-            </div>
+            </ScrollReveal>
           </div>
         </div>
-      </div>
+      </section>
 
-      {/* Construction Specialties with Enhanced Animations */}
-      <div className="py-16 bg-gradient-to-br from-blue-50 to-green-50 relative overflow-hidden">
-        {/* Animated blueprint grid in background */}
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute inset-0 animate-pulse" style={{
-            backgroundImage: `url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='%233B82F6' stroke-width='1'%3E%3Cpath d='M0 0h80v80H0z'/%3E%3Cpath d='M0 20h80M0 40h80M0 60h80M20 0v80M40 0v80M60 0v80'/%3E%3C/g%3E%3C/svg%3E")`,
-          }}></div>
+      <WaveDivider color="#ffffff" />
+
+      {/* ========== STATS - Animated Counters ========== */}
+      <section className="py-20 bg-white">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+            {[
+              { icon: BuildingIcon, value: '8', suffix: '+', label: 'Years Experience' },
+              { icon: TeamIcon, value: '100', suffix: '+', label: 'Engineers Mentored' },
+              { icon: DocumentIcon, value: String(portfolioData.publications.length), suffix: '', label: 'Research Papers' },
+              { icon: AwardIcon, value: '25', suffix: '+', label: 'Committee Roles' },
+            ].map((stat, idx) => (
+              <ScrollReveal key={idx} delay={idx * 100}>
+                <div className="stat-3d card-shine p-8 text-center">
+                  <div className="flex justify-center mb-5">
+                    <div className="icon-3d p-4 rounded-2xl">
+                      <stat.icon className="h-9 w-9 text-civil-500" />
+                    </div>
+                  </div>
+                  <div className="text-4xl font-black text-civil-600 mb-2 counter-glow">
+                    <AnimatedCounter end={stat.value} suffix={stat.suffix} />
+                  </div>
+                  <div className="text-slate-500 font-semibold text-base">{stat.label}</div>
+                </div>
+              </ScrollReveal>
+            ))}
+          </div>
         </div>
-        
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">Construction Engineering Expertise</h2>
-            <p className="text-xl text-gray-600">Specialized in Sustainable Infrastructure & Materials</p>
-            <div className="w-24 h-1 bg-gradient-to-r from-blue-500 to-green-500 mx-auto mt-4"></div>
+      </section>
+
+      <CurveDivider color="#ffffff" flip />
+
+      {/* ========== HOW I WORK - Process Steps ========== */}
+      <section className="py-24 bg-white">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <ScrollReveal>
+            <div className="text-center mb-16">
+              <h2 className="text-4xl md:text-5xl font-black text-civil-700 mb-4">How I Work</h2>
+              <div className="section-divider mx-auto mb-5"></div>
+              <p className="text-xl text-slate-500 max-w-2xl mx-auto">From research to real-world impact, a systematic approach to civil engineering excellence</p>
+            </div>
+          </ScrollReveal>
+
+          <div className="space-y-12">
+            {[
+              { step: '01', icon: ResearchIcon, title: 'Research & Analysis', desc: 'Deep literature review and gap identification in sustainable construction materials. Analyzing existing methods to find innovative improvements.' },
+              { step: '02', icon: CementMixerIcon, title: 'Material Testing & Mix Design', desc: 'Experimental investigation with granite waste, gold mine waste, GGBS, and steel fibers in concrete. Optimizing mix proportions for performance.' },
+              { step: '03', icon: StructureIcon, title: 'Structural Design & Modeling', desc: 'Advanced analysis using STAAD Pro and ETABS. Multi-storey building design, load analysis, and seismic performance evaluation.' },
+              { step: '04', icon: HardHatIcon, title: 'Site Execution & Quality Control', desc: 'On-site supervision with precision standards. Floor finishing within ±5mm tolerance, sustaining 2 T/m² live loads.' },
+              { step: '05', icon: DocumentIcon, title: 'Publication & Knowledge Transfer', desc: 'Publishing findings in peer-reviewed journals. Mentoring 100+ students and organizing technical workshops for industry advancement.' },
+            ].map((item, idx) => (
+              <ScrollReveal key={idx} delay={idx * 100}>
+                <div className="process-step">
+                  <div className="process-dot">{item.step}</div>
+                  <div className="card-3d card-shine p-8">
+                    <div className="flex items-start gap-5">
+                      <div className="icon-3d p-3 rounded-xl shrink-0 hidden sm:flex">
+                        <item.icon className="h-7 w-7 text-civil-500" />
+                      </div>
+                      <div>
+                        <h3 className="text-2xl font-bold text-civil-700 mb-2">{item.title}</h3>
+                        <p className="text-lg text-slate-500 leading-relaxed">{item.desc}</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </ScrollReveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ========== SKILLS INFINITE CAROUSEL ========== */}
+      <section className="py-16 bg-slate-50 overflow-hidden">
+        <ScrollReveal>
+          <div className="text-center mb-10">
+            <h2 className="text-4xl md:text-5xl font-black text-civil-700 mb-4">Tools & Skills</h2>
+            <div className="section-divider mx-auto mb-5"></div>
+          </div>
+        </ScrollReveal>
+
+        {/* Infinite carousel - right to left */}
+        <div className="relative">
+          {/* Fade edges */}
+          <div className="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-slate-50 to-transparent z-10"></div>
+          <div className="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-slate-50 to-transparent z-10"></div>
+
+          <div className="flex animate-marquee">
+            {[...Array(3)].map((_, setIdx) => (
+              <div key={setIdx} className="flex gap-6 px-3 shrink-0">
+                {[
+                  'Concrete Mix Design',
+                  'Structural Analysis',
+                  'Surveying',
+                  'Total Station',
+                  'AutoCAD',
+                  'Civil 3D',
+                  'Microsoft Office',
+                ].map((skill, idx) => (
+                  <div
+                    key={`${setIdx}-${idx}`}
+                    className="shrink-0 card-3d card-shine px-8 py-5 flex items-center gap-3 whitespace-nowrap"
+                  >
+                    <div className="icon-3d w-10 h-10 rounded-xl flex items-center justify-center shrink-0">
+                      <StructureIcon className="h-5 w-5 text-civil-500" />
+                    </div>
+                    <span className="text-lg font-bold text-civil-700">{skill}</span>
+                  </div>
+                ))}
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <CurveDivider color="#ffffff" flip />
+
+      {/* ========== FEATURED PUBLICATIONS ========== */}
+      <section className="py-24 bg-white">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+          <ScrollReveal>
+            <div className="text-center mb-16">
+              <h2 className="text-4xl md:text-5xl font-black text-civil-700 mb-4">Featured Research</h2>
+              <div className="section-divider mx-auto mb-5"></div>
+              <p className="text-xl text-slate-500 max-w-2xl mx-auto">Published in international peer-reviewed journals</p>
+            </div>
+          </ScrollReveal>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {portfolioData.publications.slice(0, 4).map((pub, idx) => (
+              <ScrollReveal key={idx} delay={idx * 100}>
+                <div className="card-3d card-shine p-8 h-full">
+                  <div className="flex items-start gap-4">
+                    <div className="icon-gradient w-12 h-12 rounded-xl flex items-center justify-center shrink-0">
+                      <DocumentIcon className="h-6 w-6 text-white" />
+                    </div>
+                    <div>
+                      <h3 className="text-lg font-bold text-civil-700 mb-3 leading-snug">{pub.title}</h3>
+                      <div className="flex flex-wrap gap-2 mb-2">
+                        <span className="badge text-sm">{pub.journal}</span>
+                        <span className="badge text-sm">{pub.year}</span>
+                      </div>
+                      {pub.award && (
+                        <div className="flex items-center gap-2 mt-3 text-amber-600 font-bold text-sm">
+                          <AwardIcon className="h-4 w-4" /> {pub.award}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </ScrollReveal>
+            ))}
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {/* Structural Engineering */}
-            <div className="bg-white rounded-xl shadow-xl p-8 text-center hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-4 border-t-4 border-blue-500 group">
-              <div className="w-20 h-20 bg-gradient-to-br from-blue-100 to-blue-200 rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg group-hover:shadow-xl transition-all duration-300 group-hover:animate-pulse">
-                <Layers className="h-10 w-10 text-blue-600 group-hover:animate-bounce" />
-              </div>
-              <h3 className="text-2xl font-bold text-gray-900 mb-3 group-hover:text-blue-600 transition-colors">Structural Design</h3>
-              <p className="text-gray-600 mb-6 leading-relaxed">
-                Advanced structural engineering with focus on sustainable materials and seismic design
-              </p>
-              <div className="flex justify-center space-x-2 mb-4">
-                <span className="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-sm font-medium transform transition-all group-hover:scale-110">Steel</span>
-                <span className="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-sm font-medium transform transition-all group-hover:scale-110" style={{transitionDelay: '0.1s'}}>Concrete</span>
-              </div>
-              <Link 
-                to="/about" 
-                className="inline-flex items-center text-blue-600 hover:text-blue-700 font-semibold group-hover:animate-pulse"
-              >
-                Learn More <ChevronRight className="ml-1 h-4 w-4 group-hover:translate-x-2 transition-transform" />
+          <ScrollReveal delay={200}>
+            <div className="text-center mt-10">
+              <Link to="/research" className="inline-flex items-center text-civil-500 font-bold text-lg hover:text-civil-600 transition-colors">
+                View All Publications <ArrowRightIcon className="ml-2 h-5 w-5" />
               </Link>
             </div>
+          </ScrollReveal>
+        </div>
+      </section>
 
-            {/* Sustainable Construction */}
-            <div className="bg-white rounded-xl shadow-xl p-8 text-center hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-4 border-t-4 border-green-500 group" style={{animationDelay: '0.2s'}}>
-              <div className="w-20 h-20 bg-gradient-to-br from-green-100 to-green-200 rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg group-hover:shadow-xl transition-all duration-300 group-hover:animate-pulse">
-                <Mountain className="h-10 w-10 text-green-600 group-hover:animate-bounce" />
+      <WaveDivider color="#ffffff" />
+
+      {/* ========== DOWNLOAD RESUME ========== */}
+      <section className="py-20 bg-white">
+        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+          <ScrollReveal>
+            <div className="card-glass p-12 text-center relative overflow-hidden">
+              {/* Decorative background */}
+              <div className="absolute -top-10 -right-10 w-40 h-40 bg-civil-500/5 rounded-full blur-2xl"></div>
+              <div className="absolute -bottom-10 -left-10 w-40 h-40 bg-civil-500/5 rounded-full blur-2xl"></div>
+
+              <div className="relative">
+                <div className="icon-gradient w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-6">
+                  <DocumentIcon className="h-8 w-8 text-white" />
+                </div>
+                <h2 className="text-3xl md:text-4xl font-black text-civil-700 mb-4">Download My Resume</h2>
+                <p className="text-lg text-slate-500 mb-8 max-w-lg mx-auto">
+                  Get a detailed overview of my qualifications, experience, publications, and technical skills.
+                </p>
+                <a
+                  href="/Raghavendra_Ranganatha_Resume - 2026 _1.pdf"
+                  download
+                  className="btn-primary inline-flex items-center gap-3"
+                >
+                  <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4" />
+                    <polyline points="7,10 12,15 17,10" />
+                    <line x1="12" y1="15" x2="12" y2="3" />
+                  </svg>
+                  Download Resume (PDF)
+                </a>
               </div>
-              <h3 className="text-2xl font-bold text-gray-900 mb-3 group-hover:text-green-600 transition-colors">Sustainable Materials</h3>
-              <p className="text-gray-600 mb-6 leading-relaxed">
-                Research and implementation of eco-friendly construction materials and waste utilization
-              </p>
-              <div className="flex justify-center space-x-2 mb-4">
-                <span className="px-3 py-1 bg-green-100 text-green-700 rounded-full text-sm font-medium transform transition-all group-hover:scale-110">Green Tech</span>
-                <span className="px-3 py-1 bg-green-100 text-green-700 rounded-full text-sm font-medium transform transition-all group-hover:scale-110" style={{transitionDelay: '0.1s'}}>Recycling</span>
-              </div>
-              <Link 
-                to="/research" 
-                className="inline-flex items-center text-green-600 hover:text-green-700 font-semibold group-hover:animate-pulse"
-              >
-                View Research <ChevronRight className="ml-1 h-4 w-4 group-hover:translate-x-2 transition-transform" />
+            </div>
+          </ScrollReveal>
+        </div>
+      </section>
+
+      {/* ========== BOTTOM CTA ========== */}
+      <section className="dark-section py-24">
+        <div className="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8 relative">
+          <ScrollReveal>
+            <div className="inline-flex p-5 bg-white/10 backdrop-blur-md rounded-2xl mb-8 shadow-[0_8px_32px_rgba(0,0,0,0.2)]">
+              <BridgeIcon className="h-12 w-12 text-white" />
+            </div>
+            <h2 className="text-4xl md:text-5xl font-black text-white mb-5 leading-tight">
+              Ready to Build Something Great?
+            </h2>
+            <p className="text-xl text-blue-200 mb-12 max-w-2xl mx-auto">
+              Partner with an experienced civil engineer for your next infrastructure or research project.
+            </p>
+            <div className="flex flex-col sm:flex-row justify-center gap-5">
+              <Link to="/contact" className="inline-flex items-center justify-center px-10 py-4 bg-white text-civil-700 rounded-xl font-bold text-lg shadow-[0_4px_24px_rgba(0,0,0,0.2)] transition-all duration-300 hover:shadow-[0_8px_40px_rgba(0,0,0,0.3)] hover:-translate-y-2">
+                Start a Conversation
+              </Link>
+              <Link to="/projects" className="inline-flex items-center justify-center px-10 py-4 border-2 border-white/30 text-white rounded-xl font-bold text-lg backdrop-blur transition-all duration-300 hover:bg-white/10 hover:-translate-y-2">
+                View Portfolio
               </Link>
             </div>
+          </ScrollReveal>
+        </div>
+      </section>
 
-            {/* Project Management */}
-            <div className="bg-white rounded-xl shadow-xl p-8 text-center hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-4 border-t-4 border-blue-600 group" style={{animationDelay: '0.4s'}}>
-              <div className="w-20 h-20 bg-gradient-to-br from-blue-100 to-blue-200 rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg group-hover:shadow-xl transition-all duration-300 group-hover:animate-pulse">
-                <Shield className="h-10 w-10 text-blue-600 group-hover:animate-bounce" />
-              </div>
-              <h3 className="text-2xl font-bold text-gray-900 mb-3 group-hover:text-blue-600 transition-colors">Quality Assurance</h3>
-              <p className="text-gray-600 mb-6 leading-relaxed">
-                NAAC & NBA accreditation expertise, quality control, and construction project leadership
-              </p>
-              <div className="flex justify-center space-x-2 mb-4">
-                <span className="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-sm font-medium transform transition-all group-hover:scale-110">NAAC</span>
-                <span className="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-sm font-medium transform transition-all group-hover:scale-110" style={{transitionDelay: '0.1s'}}>NBA</span>
-              </div>
-              <Link 
-                to="/experience" 
-                className="inline-flex items-center text-blue-600 hover:text-blue-700 font-semibold group-hover:animate-pulse"
-              >
-                View Projects <ChevronRight className="ml-1 h-4 w-4 group-hover:translate-x-2 transition-transform" />
-              </Link>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Construction Equipment Icons Section */}
-      <div className="py-12 bg-gradient-to-r from-slate-800 to-gray-800">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-center items-center space-x-8 md:space-x-12">
-            <div className="text-center">
-              <Truck className="h-12 w-12 text-orange-400 mx-auto mb-2" />
-              <p className="text-white text-sm font-medium">Heavy Equipment</p>
-            </div>
-            <div className="text-center">
-              <HardHat className="h-12 w-12 text-yellow-400 mx-auto mb-2" />
-              <p className="text-white text-sm font-medium">Site Safety</p>
-            </div>
-            <div className="text-center">
-              <Wrench className="h-12 w-12 text-blue-400 mx-auto mb-2" />
-              <p className="text-white text-sm font-medium">Precision Tools</p>
-            </div>
-            <div className="text-center">
-              <Zap className="h-12 w-12 text-green-400 mx-auto mb-2" />
-              <p className="text-white text-sm font-medium">Smart Tech</p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Call to Action Section */}
-      <div className="bg-gradient-to-r from-orange-600 via-amber-600 to-yellow-600 py-20 relative overflow-hidden">
-        {/* Construction pattern overlay */}
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute inset-0" style={{
-            backgroundImage: `url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='white' fill-opacity='0.2'%3E%3Cpath d='m0 40l40-40h-40v40zm0-40h40l-40 40v-40z'/%3E%3C/g%3E%3C/svg%3E")`,
-          }}></div>
-        </div>
-        
-        <div className="relative max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-center mb-6">
-            <Building2 className="h-16 w-16 text-white" />
-          </div>
-          <h2 className="text-4xl font-bold text-white mb-4">
-            Ready to Build Something Amazing?
-          </h2>
-          <p className="text-xl text-orange-100 mb-8">
-            Partner with an experienced civil engineer for your next construction project
-          </p>
-          <div className="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-6">
-            <Link 
-              to="/contact"
-              className="px-10 py-4 bg-white text-orange-600 rounded-lg hover:bg-gray-100 transition-all duration-300 font-bold shadow-xl hover:shadow-2xl transform hover:-translate-y-1 flex items-center justify-center"
-            >
-              <HardHat className="mr-2 h-5 w-5" />
-              Start Your Project
-            </Link>
-            <Link 
-              to="/projects"
-              className="px-10 py-4 border-2 border-white text-white rounded-lg hover:bg-white hover:text-orange-600 transition-all duration-300 font-bold flex items-center justify-center"
-            >
-              <Building2 className="mr-2 h-5 w-5" />
-              View Portfolio
-            </Link>
-          </div>
-        </div>
-      </div>
     </div>
   );
 };
